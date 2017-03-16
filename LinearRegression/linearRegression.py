@@ -1,7 +1,13 @@
+'''
+Created by vermanil
+Linear Regression with cost function of single variable
+dataset are in ex1data1.txt
+'''
 import numpy as np 
 import matplotlib.pyplot as plt
 import math 
 
+#load the data
 data = np.loadtxt('ex1data1.txt', delimiter=',')
 itr = 1000
 alpha = 0.01

@@ -1,3 +1,8 @@
+'''
+Created by vermanil
+Greadent Descent of function f(x) = x^2 + 1
+
+'''
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -9,6 +14,7 @@ itr = int(input("enter the no of iteration!\n"))
 alpha = float(input("enter the increment factor(ALPHA)!\n"))
 point = [-50,-50]
 plt.plot(point[0],point[1],'*')
+#apply gradient descent
 for i in range(itr):
 	point[0] = point[0] - alpha * (2*point[0])
 	point[1] = point[1] - alpha * (2*point[1])
