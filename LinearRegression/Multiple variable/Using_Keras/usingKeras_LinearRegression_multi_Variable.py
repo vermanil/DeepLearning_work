@@ -13,7 +13,7 @@ from keras import backend as K
 import matplotlib.pyplot as plt
 
 import pandas as pd
-x = pd.ExcelFile("data_carsmall.xlsx")
+x = pd.ExcelFile("../data_carsmall.xlsx")
 df = x.parse()
 # print df.head()
 df = df.dropna()
