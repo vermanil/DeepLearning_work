@@ -64,6 +64,7 @@ for t in range(0,5):
 	# print mean
 	testData[:,t] = (testData[:,t] - mean)/(std)
 testData = np.c_[np.ones(tSize), testData]
+
 print testData
 #z = model.predict(np.array([xy]))
 z = model.predict(testData)
