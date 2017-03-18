@@ -15,6 +15,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 x = pd.ExcelFile("../data_carsmall.xlsx")
 df = x.parse()
+NaNIndex = df.index[df.y.isnull()]
+testData = np.c_[df.x1[NaNIndex], df.x2[NaNIndex],df.x3[NaNIndex],df.x4[NaNIndex], df.x5[NaNIndex]]
+print testData
 # print df.head()
 df = df.dropna()
 xtrain = np.c_[df.x1[1:], df.x2[1:], df.x3[1:], df.x4[1:], df.x5[1:]]
@@ -48,8 +51,20 @@ model.compile(loss='mean_squared_error', optimizer='sgd')
 model.fit(xtrain, ytrain, verbose=1)
 
 
-xy = xtrain[0]
-c = layer2.get_weights()
-
-z = model.predict(np.array([xy]))
+# xy = xtrain[0]
+# c = layer2.get_weights()
+tSize = len(testData)
+for t in range(0,5):
+	min = np.amin(testData[:,t])
+	max = np.amax(testData[:,t])
+	std = max-min
+	#print std
+	mean = np.sum(testData[:,t])/(tSize)
+	# print std
+	# print mean
+	testData[:,t] = (testData[:,t] - mean)/(std)
+testData = np.c_[np.ones(tSize), testData]
+print testData
+#z = model.predict(np.array([xy]))
+z = model.predict(testData)
 print z
