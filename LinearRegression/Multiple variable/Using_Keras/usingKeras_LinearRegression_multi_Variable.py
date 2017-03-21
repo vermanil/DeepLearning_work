@@ -47,9 +47,9 @@ layer2 = Dense(1)
 model.add(layer2)
 
 
-model.compile(loss='mean_squared_error', optimizer='sgd')
-model.fit(xtrain, ytrain, verbose=1)
+model.compile(loss='mean_squared_error', optimizer='sgd',metrics=['accuracy'])
 
+model.fit(xtrain, ytrain, nb_epoch=200, verbose=1)
 
 # xy = xtrain[0]
 # c = layer2.get_weights()

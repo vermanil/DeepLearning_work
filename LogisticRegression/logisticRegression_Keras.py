@@ -24,10 +24,13 @@ ytrain2 = df1.y[10:110]
 xtrain = np.concatenate((xtrain1,xtrain2))
 #print xtrain.shape
 test1 = np.concatenate((np.c_[df.x1[0:5], df.x2[0:5]], np.c_[df.x1[95:], df.x2[95:]]))
+actOutput1 = np.concatenate((np.c_[df.y[0:5]], np.c_[df.y[95:]]))
 #print test1.shape
 test2 = np.concatenate((np.c_[df1.x1[0:10], df1.x2[0:10]], np.c_[df1.x1[110:], df1.x2[110:]]))
+actOutput2 = np.concatenate((np.c_[df1.y[0:5]], np.c_[df1.y[95:]]))
 # print test2.shape
 testData = np.concatenate((test1,test2))
+actOutput = np.concatenate((actOutput1,actOutput2))
 ytrain = np.concatenate((ytrain1, ytrain2))
 print ytrain.shape
 #print testData.shape
@@ -39,18 +42,25 @@ print xtrain.shape
 print testData.shape
 
 model = Sequential()
-layer1 = Dense(3, input_shape = (3, ))
+layer1 = Dense(3, input_shape = (3, ), init='uniform')
 model.add(layer1)
-#model.add(Activation('relu'))
-layer2 = Dense(1)
+model.add(Activation('sigmoid'))
+layer2 = Dense(2)
 model.add(layer2)
 model.add(Activation('sigmoid'))
+#model.add(Dense(2, init='uniform', activation='relu'))
+layer3 = Dense(1)
+model.add(layer3)
+model.add(Activation('sigmoid'))
 
-model.compile(loss='mean_squared_logarithmic_error', optimizer='adam')
+model.compile(loss='binary_crossentropy', optimizer='adam',metrics=['accuracy'])
 
-model.fit(xtrain, ytrain, verbose=1)
+model.fit(xtrain, ytrain, nb_epoch=2000, verbose=1)
 
 z = model.predict(testData)
+
+# evaluate the model
+# scores = model.evaluate(testData)
 print z
 l = len(z)
 for i in range(0,l):
@@ -58,4 +68,6 @@ for i in range(0,l):
 		print "1"
 	else:
 		print "0"
+print "Actual"
+# print actOutput
 
