@@ -22,6 +22,7 @@ print testData
 df = df.dropna()
 xtrain = np.c_[df.x1[1:], df.x2[1:], df.x3[1:], df.x4[1:], df.x5[1:]]
 print xtrain.shape
+#plt.plot(xtrain)
 m = len(xtrain)
 
 # Normalization of all the feature using (feature - mean(features))std
@@ -35,6 +36,7 @@ for k in range(0,5):
 	xtrain[:,k] = (xtrain[:,k] - mean)/std
 #print xtrain
 xtrain = np.c_[np.ones(m), xtrain]
+# plt.plot(xtrain)
 ytrain = df.y[1:]
 # plt.plot(xtrain, ytrain, '*')
 # plt.show()
@@ -47,12 +49,18 @@ layer2 = Dense(1)
 model.add(layer2)
 
 
+
 model.compile(loss='mean_squared_error', optimizer='sgd',metrics=['accuracy'])
 
 model.fit(xtrain, ytrain, nb_epoch=200, verbose=1)
 
 # xy = xtrain[0]
-# c = layer2.get_weights()
+c = layer2.get_weights()
+# hypo = [[np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100)]]
+# hypo = np.array(hypo)
+# print c
+# print hypo
+# plt.plot(c.dot(hypo))
 tSize = len(testData)
 for t in range(0,5):
 	min = np.amin(testData[:,t])
@@ -69,3 +77,4 @@ print testData
 #z = model.predict(np.array([xy]))
 z = model.predict(testData)
 print z
+plt.show()

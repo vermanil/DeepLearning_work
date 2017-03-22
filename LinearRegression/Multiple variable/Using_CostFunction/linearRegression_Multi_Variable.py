@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-x = pd.ExcelFile("data_carsmall.xlsx")
+x = pd.ExcelFile("../data_carsmall.xlsx")
 df = x.parse()
 iter = 100
 alpha = 0.01
@@ -35,6 +35,7 @@ xtrain = np.c_[np.ones(m), xtrain]
 # print xtrain
 test = xtrain[1,:]
 ytrain = df.y[1:] 
+plt.plot(xtrain, ytrain)
 theta = np.random.rand(1,6)[0]
 for eochs in range(1000):
 	cost = xtrain.dot(theta)-ytrain
@@ -47,4 +48,5 @@ print theta
 out = test.dot(theta)
 print "predicted value"
 print out
+plt.show()
 

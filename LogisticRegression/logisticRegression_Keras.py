@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 x = pd.ExcelFile("ex2data1-logistic.xls")
 df = x.parse()
+#print df.y[0]
 #print df.head()
 xtrain1 = np.c_[df.x1[5:95], df.x2[5:95]]
 ytrain1 = df.y[5:95]
@@ -44,7 +45,7 @@ print testData.shape
 model = Sequential()
 layer1 = Dense(3, input_shape = (3, ), init='uniform')
 model.add(layer1)
-model.add(Activation('sigmoid'))
+# model.add(Activation('sigmoid'))
 layer2 = Dense(2)
 model.add(layer2)
 model.add(Activation('sigmoid'))
