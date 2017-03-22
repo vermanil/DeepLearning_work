@@ -13,6 +13,19 @@ from keras import backend as K
 import matplotlib.pyplot as plt
 
 import pandas as pd
+
+def Normalization(xtrain,m):
+	print xtrain.shape
+	print m
+	for k in range(0,5):
+		min = np.amin(xtrain[:,k])
+		max = np.amax(xtrain[:,k])
+		std = max-min
+		mean = np.sum(xtrain[:,k])/(m)
+		# print std
+		# print mean
+		xtrain[:,k] = (xtrain[:,k] - mean)/std
+
 x = pd.ExcelFile("../data_carsmall.xlsx")
 df = x.parse()
 NaNIndex = df.index[df.y.isnull()]
@@ -26,34 +39,37 @@ print xtrain.shape
 m = len(xtrain)
 
 # Normalization of all the feature using (feature - mean(features))std
-for k in range(0,5):
-	min = np.amin(xtrain[:,k])
-	max = np.amax(xtrain[:,k])
-	std = max-min
-	mean = np.sum(xtrain[:,k])/(m)
-	# print std
-	# print mean
-	xtrain[:,k] = (xtrain[:,k] - mean)/std
+Normalization(xtrain,m)
+# for k in range(0,5):
+# 	min = np.amin(xtrain[:,k])
+# 	max = np.amax(xtrain[:,k])
+# 	std = max-min
+# 	mean = np.sum(xtrain[:,k])/(m)
+# 	# print std
+# 	# print mean
+# 	xtrain[:,k] = (xtrain[:,k] - mean)/std
 #print xtrain
 xtrain = np.c_[np.ones(m), xtrain]
+print xtrain
 # plt.plot(xtrain)
 ytrain = df.y[1:]
 # plt.plot(xtrain, ytrain, '*')
 # plt.show()
+
+##############################################################
+#create Model
 	
 model = Sequential()
 layer1 = Dense(5, input_shape = (6,))
 model.add(layer1)
-
 layer2 = Dense(1)
 model.add(layer2)
 
-
-
 model.compile(loss='mean_squared_error', optimizer='sgd',metrics=['accuracy'])
 
-model.fit(xtrain, ytrain, nb_epoch=200, verbose=1)
+model.fit(xtrain, ytrain, nb_epoch=400, verbose=1)
 
+####################################################################S
 # xy = xtrain[0]
 c = layer2.get_weights()
 # hypo = [[np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100)]]
@@ -62,15 +78,16 @@ c = layer2.get_weights()
 # print hypo
 # plt.plot(c.dot(hypo))
 tSize = len(testData)
-for t in range(0,5):
-	min = np.amin(testData[:,t])
-	max = np.amax(testData[:,t])
-	std = max-min
-	#print std
-	mean = np.sum(testData[:,t])/(tSize)
-	# print std
-	# print mean
-	testData[:,t] = (testData[:,t] - mean)/(std)
+Normalization(testData, tSize)
+# for t in range(0,5):
+# 	min = np.amin(testData[:,t])
+# 	max = np.amax(testData[:,t])
+# 	std = max-min
+# 	#print std
+# 	mean = np.sum(testData[:,t])/(tSize)
+# 	# print std
+# 	# print mean
+# 	testData[:,t] = (testData[:,t] - mean)/(std)
 testData = np.c_[np.ones(tSize), testData]
 
 print testData
