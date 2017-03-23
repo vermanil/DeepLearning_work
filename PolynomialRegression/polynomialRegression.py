@@ -45,7 +45,7 @@ df.x1[1:]*df.x1[1:],df.x2[1:]*df.x2[1:],df.x3[1:]*df.x3[1:],df.x4[1:]*df.x4[1:],
 df.x5[1:]*df.x5[1:]]
 print xtrain.shape
 # print df.x1[1:]*df.x2[1:]
-#plt.plot(xtrain)
+#plt.plot(xtrain,'*')
 m = len(xtrain)
 Normalization(xtrain,m)
 xtrain = np.c_[np.ones(m), xtrain]
@@ -62,7 +62,7 @@ ytrain = df.y[1:]
 #Creating model
 
 model = Sequential()
-layer1 = Dense(20, input_shape = (21,))
+layer1 = Dense(21, input_shape = (21,))
 model.add(layer1)
 
 layer2 = Dense(1)
@@ -73,6 +73,11 @@ model.add(layer2)
 model.compile(loss='mean_squared_error', optimizer='sgd',metrics=['accuracy'])
 
 model.fit(xtrain, ytrain, nb_epoch=400, verbose=1)
+c = layer2.get_weights()
+c = np.array(c)
+print c[0].shape
+plt.plot(xtrain.dot(c[0]))
 
 z = model.predict(testData)
 print z
+plt.show()

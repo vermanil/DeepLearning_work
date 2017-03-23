@@ -8,6 +8,8 @@ from keras.layers.core import Dense, Activation
 from keras import optimizers
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
 x = pd.ExcelFile("ex2data1-logistic.xls")
 df = x.parse()
 #print df.y[0]
@@ -41,9 +43,10 @@ m2 = len(testData)
 testData = np.c_[np.ones(m2), testData]
 print xtrain.shape
 print testData.shape
+#plt.plot(xtrain,'*')
 
 model = Sequential()
-layer1 = Dense(3, input_shape = (3, ), init='uniform')
+layer1 = Dense(3, input_shape = (3, ), init='normal')
 model.add(layer1)
 # model.add(Activation('sigmoid'))
 layer2 = Dense(2)
@@ -58,6 +61,16 @@ model.compile(loss='binary_crossentropy', optimizer='adam',metrics=['accuracy'])
 
 model.fit(xtrain, ytrain, nb_epoch=2000, verbose=1)
 
+c = layer2.get_weights()
+c = np.array(c)
+print c[0]
+print c[0].shape
+s = [np.ones(100), np.linspace(-25,25,100), np.linspace(-25,25,100)]
+s = np.array(s).transpose()
+print s
+print s.shape
+plt.plot(s.dot(c[0]))
+
 z = model.predict(testData)
 
 # evaluate the model
@@ -70,5 +83,6 @@ for i in range(0,l):
 	else:
 		print "0"
 print "Actual"
+plt.show()
 # print actOutput
 

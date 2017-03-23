@@ -30,12 +30,11 @@ x = pd.ExcelFile("../data_carsmall.xlsx")
 df = x.parse()
 NaNIndex = df.index[df.y.isnull()]
 testData = np.c_[df.x1[NaNIndex], df.x2[NaNIndex],df.x3[NaNIndex],df.x4[NaNIndex], df.x5[NaNIndex]]
-print testData
+# print testData
 # print df.head()
 df = df.dropna()
 xtrain = np.c_[df.x1[1:], df.x2[1:], df.x3[1:], df.x4[1:], df.x5[1:]]
 print xtrain.shape
-#plt.plot(xtrain)
 m = len(xtrain)
 
 # Normalization of all the feature using (feature - mean(features))std
@@ -50,17 +49,19 @@ Normalization(xtrain,m)
 # 	xtrain[:,k] = (xtrain[:,k] - mean)/std
 #print xtrain
 xtrain = np.c_[np.ones(m), xtrain]
+#plt.plot(xtrain)
 print xtrain
 # plt.plot(xtrain)
 ytrain = df.y[1:]
-# plt.plot(xtrain, ytrain, '*')
+#plt.plot(xtrain,ytrain)
+#plt.plot(xtrain, ytrain, '*')
 # plt.show()
 
 ##############################################################
 #create Model
 	
 model = Sequential()
-layer1 = Dense(5, input_shape = (6,))
+layer1 = Dense(6, input_shape = (6,))
 model.add(layer1)
 layer2 = Dense(1)
 model.add(layer2)
@@ -72,6 +73,8 @@ model.fit(xtrain, ytrain, nb_epoch=400, verbose=1)
 ####################################################################S
 # xy = xtrain[0]
 c = layer2.get_weights()
+c = np.array(c)
+print c[0]
 # hypo = [[np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100)]]
 # hypo = np.array(hypo)
 # print c
@@ -89,7 +92,12 @@ Normalization(testData, tSize)
 # 	# print mean
 # 	testData[:,t] = (testData[:,t] - mean)/(std)
 testData = np.c_[np.ones(tSize), testData]
-
+s = [np.ones(100), np.linspace(-25,25,100), np.linspace(-25,25,100),np.linspace(-25,25,100),np.linspace(-25,25,100),
+np.linspace(-25,25,100)]
+s = np.array(s).transpose()
+print s
+print s.shape
+plt.plot(s.dot(c[0]))
 print testData
 #z = model.predict(np.array([xy]))
 z = model.predict(testData)
