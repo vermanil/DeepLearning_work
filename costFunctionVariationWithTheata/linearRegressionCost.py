@@ -19,11 +19,12 @@ z = theta[:,0] * x[0] + theta[:,1] * x[1] + theta[:,2] * x[2]
 htheta = (1)/(1+np.exp(-z))
 # plt.plot(htheta)
 print np.square(htheta)/(2)
-#plt.plot(np.square(htheta)/(2))
+plt.plot(np.square(htheta)/(2))
 plt.plot(-(np.log(1-htheta)))
 # plt.plot(htheta)
 # x = np.linspace(-50,50,100)
 # htheta = (1)/(1+np.exp(-x))
 # plt.plot(htheta)
-
 plt.show()
+
+ 

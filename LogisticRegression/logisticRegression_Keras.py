@@ -43,7 +43,7 @@ m2 = len(testData)
 testData = np.c_[np.ones(m2), testData]
 print xtrain.shape
 print testData.shape
-#plt.plot(xtrain,'*')
+plt.plot(xtrain,'*')
 
 model = Sequential()
 layer1 = Dense(3, input_shape = (3, ), init='normal')
@@ -62,14 +62,17 @@ model.compile(loss='binary_crossentropy', optimizer='adam',metrics=['accuracy'])
 model.fit(xtrain, ytrain, nb_epoch=2000, verbose=1)
 
 c = layer2.get_weights()
-c = np.array(c)
-print c[0]
+c = np.array(c).transpose()
+# print c[0]
 print c[0].shape
 s = [np.ones(100), np.linspace(-25,25,100), np.linspace(-25,25,100)]
 s = np.array(s).transpose()
-print s
+# print s
 print s.shape
-plt.plot(s.dot(c[0]))
+la2 = s.dot(c[0])
+la2Input = (1)/(1+np.exp(la2))
+print la2Input.shape
+plt.plot(la2Input.dot(c[1]))
 
 z = model.predict(testData)
 
@@ -84,5 +87,7 @@ for i in range(0,l):
 		print "0"
 print "Actual"
 plt.show()
+print "Actual"
+print 
 # print actOutput
 
