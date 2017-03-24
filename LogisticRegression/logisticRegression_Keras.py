@@ -78,6 +78,7 @@ z = model.predict(testData)
 
 # evaluate the model
 # scores = model.evaluate(testData)
+
 print z
 l = len(z)
 for i in range(0,l):
@@ -86,8 +87,7 @@ for i in range(0,l):
 	else:
 		print "0"
 print "Actual"
+print actOutput
 plt.show()
-print "Actual"
-print 
 # print actOutput
 

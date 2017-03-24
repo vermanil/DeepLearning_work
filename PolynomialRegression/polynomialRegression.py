@@ -75,12 +75,14 @@ model.compile(loss='mean_squared_error', optimizer='sgd',metrics=['accuracy'])
 model.fit(xtrain, ytrain, nb_epoch=400, verbose=1)
 c = layer2.get_weights()
 c = np.array(c)
+print c
 print c[0].shape
 pl = np.c_[np.ones(93),df.x1[1:], df.x2[1:], df.x3[1:], df.x4[1:], df.x5[1:],df.x1[1:]*df.x2[1:],
 df.x1[1:]*df.x3[1:],df.x1[1:]*df.x4[1:],df.x1[1:]*df.x5[1:],df.x2[1:]*df.x3[1:],df.x2[1:]*df.x4[1:],
 df.x2[1:]*df.x5[1:],df.x3[1:]*df.x4[1:],df.x3[1:]*df.x5[1:],df.x4[1:]*df.x5[1:],
 df.x1[1:]*df.x1[1:],df.x2[1:]*df.x2[1:],df.x3[1:]*df.x3[1:],df.x4[1:]*df.x4[1:],
 df.x5[1:]*df.x5[1:]]
+
 plt.plot(pl.dot(c[0]))
 
 z = model.predict(testData)

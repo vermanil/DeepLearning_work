@@ -74,7 +74,7 @@ model.fit(xtrain, ytrain, nb_epoch=400, verbose=1)
 # xy = xtrain[0]
 c = layer2.get_weights()
 c = np.array(c)
-print c[0]
+print c
 # hypo = [[np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100),np.linspace(0,10,100)]]
 # hypo = np.array(hypo)
 # print c
@@ -95,10 +95,17 @@ testData = np.c_[np.ones(tSize), testData]
 s = [np.ones(100), np.linspace(-25,25,100), np.linspace(-25,25,100),np.linspace(-25,25,100),np.linspace(-25,25,100),
 np.linspace(-25,25,100)]
 s = np.array(s).transpose()
-print s
+#print s
 print s.shape
-plt.plot(s.dot(c[0]))
-print testData
+d = s.dot(c[0])
+plt.plot(d.dot(c[1]))
+#print testData
+# check = [[12,8,307,130,3504]]
+# check = np.array(check)
+# Normalization(check,1)
+# check = np.c_[1,check]
+
+# print check
 #z = model.predict(np.array([xy]))
 z = model.predict(testData)
 print z
