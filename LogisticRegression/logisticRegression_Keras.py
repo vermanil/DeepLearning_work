@@ -24,7 +24,7 @@ ytrain1 = df.y[5:95]
 x1 = pd.ExcelFile("ex2data2-logistic.xls")
 df1 = x1.parse()
 # print df1
-df1 = shuffle(df1)
+df1 = df1.sample(frac=1).reset_index(drop=True)
 # print df1
 #print df.head()
 xtrain2 = np.c_[df1.x1[10:110], df1.x2[10:110]]
@@ -37,19 +37,13 @@ actOutput1 = np.concatenate((np.c_[df.y[0:5]], np.c_[df.y[95:]]))
 #print test1.shape
 test2 = np.concatenate((np.c_[df1.x1[0:10], df1.x2[0:10]], np.c_[df1.x1[110:], df1.x2[110:]]))
 actOutput2 = np.concatenate((np.c_[df1.y[0:10]], np.c_[df1.y[110:]]))
-# print test2.shape
-# testData = np.concatenate((test1,test2))
-# actOutput = np.concatenate((actOutput1,actOutput2))
-# ytrain = np.concatenate((ytrain1, ytrain2))
-# print ytrain1.shape
-# #print testData.shape
+
+
+
 m1 = len(xtrain1)
 xtrain1 = np.c_[np.ones(m1), xtrain1]
 m2 = len(test1)
 testData = np.c_[np.ones(m2), test1]
-print xtrain1.shape
-print testData.shape
-# plt.plot(xtrain,'*')
 
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -58,22 +52,18 @@ print testData.shape
 model = Sequential()
 layer1 = Dense(3, input_shape = (3, ), init='normal')
 model.add(layer1)
-# model.add(Activation('sigmoid'))
 
-layer2 = Dense(2)
+
+layer2 = Dense(1)
 model.add(layer2)
-model.add(Activation('sigmoid'))
-#model.add(Dense(2, init='uniform', activation='relu'))
-
-
-layer3 = Dense(1)
-model.add(layer3)
 model.add(Activation('sigmoid'))
 
 adam = optimizers.Adam(lr=0.001)
 model.compile(loss='mean_squared_error', optimizer='adam',metrics=['accuracy'])
 
-model.fit(xtrain1, ytrain1, nb_epoch=2000, verbose=1)
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
+
+model.fit(xtrain1, ytrain1, nb_epoch=1000, verbose=1)
 
 c = layer2.get_weights()
 c = np.array(c).transpose()
@@ -97,6 +87,17 @@ outPut = np.array(outPut)
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Train second Data
+model1 = Sequential()
+layer1 = Dense(3, input_shape = (3, ), init='normal')
+model1.add(layer1)
+
+
+layer2 = Dense(1)
+model1.add(layer2)
+model1.add(Activation('sigmoid'))
+
+adam = optimizers.Adam(lr=0.001)
+model1.compile(loss='mean_squared_error', optimizer='adam',metrics=['accuracy'])
 
 
 m1 = len(xtrain2)
@@ -104,11 +105,11 @@ xtrain2 = np.c_[np.ones(m1), xtrain2]
 m2 = len(test2)
 testData = np.c_[np.ones(m2), test2]
 
-model.fit(xtrain2, ytrain2, nb_epoch=2000, verbose=1)
+model1.fit(xtrain2, ytrain2, nb_epoch=1000, verbose=1)
 c = layer2.get_weights()
 c = np.array(c).transpose()
 print c
-z = model.predict(testData)
+z = model1.predict(testData)
 
 print z
 l = len(z)
