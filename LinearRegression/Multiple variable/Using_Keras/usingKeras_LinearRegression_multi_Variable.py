@@ -61,14 +61,14 @@ ytrain = df.y[1:]
 #create Model
 	
 model = Sequential()
-layer1 = Dense(6, input_shape = (6,))
+layer1 = Dense(5, input_shape = (6,))
 model.add(layer1)
 layer2 = Dense(1)
 model.add(layer2)
 
-model.compile(loss='mean_squared_error', optimizer='sgd',metrics=['accuracy'])
+model.compile(loss='mean_squared_error', optimizer='adam')
 
-model.fit(xtrain, ytrain, nb_epoch=400, verbose=1)
+model.fit(xtrain, ytrain, nb_epoch=1000, verbose=1)
 
 ####################################################################S
 # xy = xtrain[0]
@@ -97,8 +97,8 @@ np.linspace(-25,25,100)]
 s = np.array(s).transpose()
 #print s
 print s.shape
-d = s.dot(c[0])
-plt.plot(d.dot(c[1]))
+#d = s.dot(c[0])
+#plt.plot(d.dot(c[1]))
 #print testData
 # check = [[12,8,307,130,3504]]
 # check = np.array(check)
@@ -106,7 +106,7 @@ plt.plot(d.dot(c[1]))
 # check = np.c_[1,check]
 
 # print check
-#z = model.predict(np.array([xy]))
+#z = model.predictdefloration(np.array([xy]))
 z = model.predict(testData)
 print z
 plt.show()

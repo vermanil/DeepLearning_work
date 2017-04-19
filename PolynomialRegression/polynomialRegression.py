@@ -24,7 +24,6 @@ def Normalization(xtrain,m):
 		# print mean
 		xtrain[:,k] = (xtrain[:,k] - mean)/std
 
-
 import pandas as pd
 x = pd.ExcelFile("data_carsmall.xlsx")
 df = x.parse()
